@@ -2,7 +2,153 @@
 export default {
   content: ["./client/index.html", "./client/src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "purple-50": "#f8f5ff",
+      },
+      animation: {
+        fadeIn: "fadeIn 0.2s ease-in-out",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0", transform: "scale(0.95)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
+      },
+    },
   },
   plugins: [],
+  safelist: [
+    // Background colors
+    "bg-purple-50",
+    "bg-purple-100",
+    "bg-purple-200",
+    "bg-purple-300",
+    "bg-purple-600",
+    "bg-purple-700",
+    "bg-blue-50",
+    "bg-gray-50",
+    "bg-gray-100",
+    "bg-gray-200",
+    "bg-black",
+    "bg-red-50",
+
+    // Text colors
+    "text-gray-400",
+    "text-gray-500",
+    "text-gray-600",
+    "text-gray-700",
+    "text-gray-800",
+    "text-gray-900",
+    "text-amber-500",
+    "text-blue-500",
+    "text-purple-500",
+    "text-purple-600",
+    "text-purple-800",
+    "text-red-400",
+    "text-red-500",
+    "text-red-600",
+    "text-white",
+
+    // Font sizes
+    "text-xs",
+    "text-sm",
+    "text-base",
+    "text-lg",
+    "text-xl",
+    "text-2xl",
+    "text-3xl",
+
+    // Borders
+    "border-gray-200",
+    "border-gray-300",
+    "border-purple-200",
+    "border-purple-300",
+
+    // Border radius
+    "rounded-lg",
+    "rounded-xl",
+    "rounded-md",
+
+    // Font weights
+    "font-medium",
+    "font-semibold",
+    "font-bold",
+
+    // Widths and heights
+    "w-4",
+    "w-6",
+    "w-10",
+    "w-12",
+    "w-14",
+    "h-4",
+    "h-6",
+    "h-10",
+    "h-12",
+    "h-14",
+    "w-[76px]",
+
+    // Backgrounds and opacities
+    "bg-opacity-50",
+
+    // Hover states
+    "hover:bg-gray-100",
+    "hover:bg-gray-200",
+    "hover:bg-purple-100",
+    "hover:bg-purple-200",
+    "hover:bg-purple-700",
+    "hover:text-gray-700",
+    "hover:text-gray-800",
+    "hover:text-red-600",
+    "hover:shadow-md",
+    "hover:border-purple-200",
+    "hover:underline",
+
+    // Group hover
+    "group-hover:flex",
+    "group-hover:invisible",
+    "group-hover:scale-100",
+    "group-hover:opacity-100",
+
+    // Focus states
+    "focus:outline-none",
+    "focus:ring-2",
+    "focus:ring-purple-300",
+    "focus:ring-purple-500",
+
+    // Text styling
+    "line-clamp-2",
+
+    // Overflow
+    "overflow-hidden",
+    "overflow-x-hidden",
+
+    // Transforms
+    "scale-95",
+
+    // Shadows
+    "shadow-sm",
+    "shadow-md",
+
+    // Transitions
+    "transform",
+    "transition-all",
+    "transition-colors",
+    "transition-opacity",
+    "transition-shadow",
+    "duration-200",
+    "duration-300",
+    "opacity-0",
+
+    // Grid
+    "grid",
+    "grid-cols-1",
+    "md:grid-cols-2",
+    "gap-4",
+    "col-span-full",
+
+    // Scrollbar
+    'scrollbar-hide',
+    'smooth-scroll',
+  ],
 };

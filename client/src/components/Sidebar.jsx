@@ -1,20 +1,54 @@
+import { useNoteContext } from "../context/NoteContext";
+
 export default function Sidebar() {
+  const { activeCategory, setActiveCategory } = useNoteContext();
+
   return (
-    <aside className="w-56 min-h-screen bg-purple-100 p-6 flex flex-col">
-      <button className="mb-8 flex items-center gap-2 px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">
-        <span>📝</span>
-        New
-      </button>
-      <nav className="flex flex-col gap-4">
-        <button className="flex items-center gap-2 px-3 py-2 rounded hover:bg-purple-200">
-          <span>⭐</span>
-          Personal
+    <aside className="w-[90px] min-h-screen bg-purple-50 flex flex-col items-center pt-16 border-r border-gray-200 shadow-sm">
+      <div className="flex flex-col gap-2 items-center mb-8">
+        <button
+          className={`w-16 h-16 rounded-xl flex items-center justify-center shadow-sm hover:shadow-md transition-all ${
+            activeCategory === "all"
+              ? "bg-purple-100 hover:bg-purple-200"
+              : "bg-gray-100 hover:bg-gray-200"
+          }`}
+          onClick={() => setActiveCategory("all")}
+          aria-label="View all notes"
+        >
+          <span className="text-2xl">📋</span>
         </button>
-        <button className="flex items-center gap-2 px-3 py-2 rounded hover:bg-purple-200">
-          <span>💼</span>
-          Business
+        <span className="text-sm font-medium text-gray-600">All</span>
+      </div>
+
+      <div className="flex flex-col gap-2 items-center mb-8">
+        <button
+          className={`w-16 h-16 rounded-xl flex items-center justify-center shadow-sm hover:shadow-md transition-all ${
+            activeCategory === "personal"
+              ? "bg-purple-100 hover:bg-purple-200"
+              : "bg-gray-100 hover:bg-gray-200"
+          }`}
+          onClick={() => setActiveCategory("personal")}
+          aria-label="View personal notes"
+        >
+          <span className="text-2xl">⭐</span>
         </button>
-      </nav>
+        <span className="text-sm font-medium text-gray-600">Personal</span>
+      </div>
+
+      <div className="flex flex-col gap-2 items-center">
+        <button
+          className={`w-16 h-16 rounded-xl flex items-center justify-center shadow-sm hover:shadow-md transition-all ${
+            activeCategory === "business"
+              ? "bg-purple-100 hover:bg-purple-200"
+              : "bg-gray-100 hover:bg-gray-200"
+          }`}
+          onClick={() => setActiveCategory("business")}
+          aria-label="View business notes"
+        >
+          <span className="text-2xl">💼</span>
+        </button>
+        <span className="text-sm font-medium text-gray-600">Business</span>
+      </div>
     </aside>
-  )
+  );
 }
