@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/db.jsx';
+import sequelize from '../config/db.js';
 
 const Note = sequelize.define('Note', {
   title: {
