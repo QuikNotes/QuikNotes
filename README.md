@@ -1,12 +1,97 @@
-# React + Vite
+# QuikNotes
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+QuikNotes is a modern note-taking application built with React, Vite, and Tailwind CSS. It allows users to create, read, update, and delete notes, categorize them as Personal or Business, and filter notes by category.
 
-Currently, two official plugins are available:
+![QuikNotes App Screenshot]
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Create and manage notes**: Add, edit, and delete notes
+- **Categorize notes**: Organize notes as Personal or Business
+- **Filter by category**: Easily find notes by filtering categories
+- **Responsive design**: Works on both desktop and mobile devices
+- **Modern UI**: Clean and intuitive user interface with animations and hover effects
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech Stack
+
+- **React**: Frontend library for building user interfaces
+- **Vite**: Next-generation frontend tooling
+- **Tailwind CSS**: Utility-first CSS framework
+- **Context API**: For state management
+- **date-fns**: For date manipulation and formatting
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/yourusername/QuikNotes.git
+   cd QuikNotes
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   # or
+   yarn
+   ```
+
+3. Start the development server:
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+4. Open your browser and navigate to `http://localhost:3000`
+
+## Project Structure
+
+```
+QuikNotes/
+├── client/                  # Client-side code
+│   ├── src/                 # Source code
+│   │   ├── components/      # Reusable components
+│   │   │   ├── NoteForm.jsx # Form for creating/editing notes
+│   │   │   ├── NoteItem.jsx # Individual note component
+│   │   │   ├── NoteList.jsx # List of notes
+│   │   │   └── Sidebar.jsx  # Sidebar for filtering
+│   │   ├── context/         # State management
+│   │   │   └── NoteContext.jsx # Global state for notes
+│   │   ├── pages/           # Page components
+│   │   │   └── Home.jsx     # Main page
+│   │   ├── App.jsx          # Main App component
+│   │   └── main.jsx         # Entry point
+│   └── index.html           # HTML template
+├── public/                  # Public assets
+├── tailwind.config.js       # Tailwind configuration
+└── vite.config.js           # Vite configuration
+```
+
+## Future Enhancements
+
+- User authentication and personal note storage
+- Rich text editor for note content
+- Search functionality
+- Note sharing and collaboration
+- Cloud synchronization
+- Dark mode support
+- Tags and more categorization options
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Design inspiration from modern note-taking apps
+- Icon emojis for simplicity

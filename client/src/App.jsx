@@ -1,10 +1,13 @@
-import './App.css'
-import Home from './pages/Home'
+import "./App.css";
+import Home from "./pages/Home";
+import { NoteProvider } from "./context/NoteContext";
 
 function App() {
   return (
-    <Home />
-  )
+    <NoteProvider>
+      <Home />
+    </NoteProvider>
+  );
 }
 
-export default App
+export default App;
