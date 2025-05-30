@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import noteRoutes from './routes/noteRoutes.jsx';
-import sequelize from './config/db.jsx';
+import noteRoutes from './routes/noteRoutes.js';
+import sequelize from './config/db.js';
 
 dotenv.config();
 
