@@ -10,6 +10,13 @@ const Note = sequelize.define('Note', {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  category: {
+    type: DataTypes.STRING,
+    defaultValue: 'peronal',
+    validate: {
+      isIn:[['personal', 'business']]
+    }
+  }
 }, {
   timestamps: true,
 });

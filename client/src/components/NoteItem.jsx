@@ -1,7 +1,7 @@
 import { useNoteContext } from "../context/NoteContext";
 import { useState, useRef, useEffect } from "react";
 
-export default function NoteItem({ note, onEdit }) {
+export default function NoteItem({ note, onEdit, showToast }) {
   const { deleteNote } = useNoteContext();
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
@@ -13,11 +13,23 @@ export default function NoteItem({ note, onEdit }) {
 
   function formatDate(dateString) {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    }).format(date);
+    const now = new Date();
+    const diffTime = Math.abs(now - date);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) {
+      return "Today";
+    } else if (diffDays === 1) {
+      return "Yesterday";
+    } else if (diffDays < 7) {
+      return `${diffDays} days ago`;
+    } else {
+      return new Intl.DateTimeFormat("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      }).format(date);
+    }
   }
 
   // Close dropdown when clicking outside
@@ -40,12 +52,20 @@ export default function NoteItem({ note, onEdit }) {
   }, [showMenu]);
 
   return (
-    <div className="group bg-white border-b border-gray-200 pb-5 pt-4 px-4 relative hover:bg-gray-50 transition-all duration-200">
+    <div
+      className={`group bg-white border-b border-gray-200 pb-5 pt-4 px-4 relative hover:bg-gray-50 transition-all duration-200 ${
+        note.category === "personal"
+          ? "border-l-4 border-l-purple-300"
+          : "border-l-4 border-l-blue-300"
+      }`}
+    >
       <div className="flex">
         {/* Left Column with Icon */}
         <div
           className={`w-12 h-12 rounded-lg mr-4 flex-shrink-0 flex items-center justify-center transition-colors duration-200 ${
-            note.category === "personal" ? "bg-purple-50" : "bg-blue-50"
+            note.category === "personal"
+              ? "bg-purple-50 text-purple-500"
+              : "bg-blue-50 text-blue-500"
           }`}
         >
           <span className="text-xl">{getCategoryIcon(note.category)}</span>
@@ -53,21 +73,35 @@ export default function NoteItem({ note, onEdit }) {
 
         {/* Content */}
         <div className="flex-1 overflow-hidden pr-6">
-          <div className="font-medium text-gray-800 text-base">
+          <div className="font-medium text-gray-800 text-base group-hover:text-purple-700 transition-colors">
             {note.title}
           </div>
           <div className="text-gray-500 text-sm line-clamp-2 mt-1.5">
             {note.content}
           </div>
-          <div className="text-gray-400 text-xs mt-2">
+          <div className="text-gray-400 text-xs mt-2 flex items-center">
+            <svg
+              className="w-3 h-3 mr-1"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
             {formatDate(note.createdAt)}
           </div>
         </div>
       </div>
 
-      {/* Options button (three dots) - visible all the time */}
+      {/* Options button (three dots) - with improved hover */}
       <button
-        className="absolute top-3 right-3 text-gray-400 p-1 hover:text-gray-600 transition-colors focus:outline-none"
+        className="absolute top-3 right-3 text-gray-400 p-1.5 rounded-full hover:text-gray-600 hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-300"
         onClick={() => setShowMenu(!showMenu)}
         ref={buttonRef}
         aria-label="Note options"
@@ -117,6 +151,7 @@ export default function NoteItem({ note, onEdit }) {
             onClick={() => {
               setShowMenu(false);
               deleteNote(note.id);
+              showToast && showToast("Note deleted successfully", "success");
             }}
           >
             <svg

@@ -1,35 +1,52 @@
-const mysql = require('mysql2/promise');
-require('dotenv').config();
+/* global process */
+import { Sequelize } from "sequelize";
+import dotenv from "dotenv";
 
-const db = mysql.createdb({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-  port: process.env.DB_PORT,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-});
+dotenv.config();
 
-//connection
-db.getConnection()
-  .then(connection => {
-    console.log('Successfully connected to database!');
-    connection.release();
-  })
-  .catch(err => {
-    console.error('Error connecting to database:', err);
-    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-      console.error('Database connection was closed.');
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST || "localhost",
+    port: process.env.DB_PORT || 3306,
+    dialect: "mysql",
+    logging: false,
+    pool: {
+      max: 10,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
     }
-    if (err.code === 'ER_CON_COUNT_ERROR') {
-      console.error('Database has too many connections.');
-    }
-    if (err.code === 'ECONNREFUSED') {
-      console.error('Database connection was refused.');
-    }
-    // process.exit(1);
-  });
+  }
+);
 
-module.exports = db;
+const testConnection = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("Connection to the database has been established successfully.");
+    return true;
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+
+    if (error.original) {
+      if (error.original.code === "ECONNREFUSED") {
+        console.error("Database connection was refused.");
+      } else if (error.original.code === "ER_ACCESS_DENIED_ERROR") {
+        console.error("Access denied for user. Check your credentials.");
+      } else if (error.original.code === "ENOTFOUND") {
+        console.error("Database host not found. Check your DB_HOST.");
+      }
+    }
+    return false;
+  }
+};
+
+export default sequelize;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNoteContext } from "../context/NoteContext";
 
-export default function NoteForm({ setShowForm, className = "" }) {
+export default function NoteForm({ setShowForm, className = "", showToast }) {
   const { addNote, updateNote, editingNote } = useNoteContext();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -28,12 +28,14 @@ export default function NoteForm({ setShowForm, className = "" }) {
         content,
         category,
       });
+      showToast && showToast("Note updated successfully", "success");
     } else {
       addNote({
         title,
         content,
         category,
       });
+      showToast && showToast("Note added successfully", "success");
     }
 
     // Reset form and close it

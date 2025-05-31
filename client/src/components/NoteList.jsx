@@ -3,8 +3,16 @@ import NoteForm from "./NoteForm";
 import NoteItem from "./NoteItem";
 import { useNoteContext } from "../context/NoteContext";
 
-export default function NoteList() {
-  const { filteredNotes, editNote, activeCategory } = useNoteContext();
+export default function NoteList({ showToast }) {
+  const {
+    filteredNotes,
+    editNote,
+    activeCategory,
+    isLoading,
+    error,
+    searchQuery,
+    setSearchQuery,
+  } = useNoteContext();
   const [showForm, setShowForm] = useState(false);
 
   return (
@@ -41,20 +49,87 @@ export default function NoteList() {
         </svg>
       </div>
 
+      {/* Search Bar */}
+      <div className="relative mb-6">
+        <input
+          type="text"
+          placeholder="Search notes..."
+          className="w-full p-2.5 pl-10 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-300"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <svg
+          className="absolute left-3 top-3 w-4 h-4 text-gray-400"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+      </div>
+
       {showForm && (
-        <NoteForm setShowForm={setShowForm} className="flex-shrink-0" />
+        <NoteForm
+          setShowForm={setShowForm}
+          showToast={showToast}
+          className="flex-shrink-0"
+        />
       )}
 
       <div className="flex flex-col flex-1 overflow-auto scrollbar-hide smooth-scroll">
-        {filteredNotes.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">
-            No notes found. Create a new note to get started!
+        {isLoading ? (
+          <div className="flex justify-center items-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-500"></div>
+          </div>
+        ) : error ? (
+          <div className="text-center py-8 text-red-500">{error}</div>
+        ) : filteredNotes.length === 0 ? (
+          <div className="text-center py-12 px-4">
+            <div className="inline-block p-3 bg-purple-50 rounded-full mb-4">
+              <svg
+                className="w-8 h-8 text-purple-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 0L11.828 15.1l-3.414.586.586-3.414 9.586-9.586z"
+                />
+              </svg>
+            </div>
+            <h3 className="text-lg font-medium text-gray-700 mb-1">
+              No notes found
+            </h3>
+            <p className="text-gray-500 mb-4">
+              {searchQuery
+                ? "Try a different search term"
+                : "Create your first note to get started!"}
+            </p>
+            {!searchQuery && (
+              <button
+                className="bg-purple-600 text-white px-5 py-2 rounded-lg hover:bg-purple-700 transition-colors shadow-sm"
+                onClick={() => setShowForm(true)}
+              >
+                Create Note
+              </button>
+            )}
           </div>
         ) : (
           filteredNotes.map((note) => (
             <NoteItem
               key={note.id}
               note={note}
+              showToast={showToast}
               onEdit={(note) => {
                 editNote(note);
                 setShowForm(true);

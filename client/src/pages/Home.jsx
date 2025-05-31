@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import NoteList from "../components/NoteList";
 
-export default function Home() {
+export default function Home({ showToast }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [showSidebar, setShowSidebar] = useState(!isMobile);
+  const [showShortcutHelp, setShowShortcutHelp] = useState(false);
 
   useEffect(() => {
     function handleResize() {
@@ -14,11 +15,26 @@ export default function Home() {
     }
 
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    // Keyboard shortcuts
+    function handleKeyDown(e) {
+      // Ctrl/Cmd + / to show shortcut help
+      if ((e.ctrlKey || e.metaKey) && e.key === "/") {
+        setShowShortcutHelp((prev) => !prev);
+        e.preventDefault();
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
   return (
-    <div className="h-screen bg-purple-50 flex overflow-hidden fixed inset-0">
+    <div className="h-screen bg-gray-100 flex overflow-hidden fixed inset-0">
       {/* Sidebar - Fixed position */}
       {showSidebar && (
         <div
@@ -43,10 +59,13 @@ export default function Home() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col ml-[90px] h-full">
         {/* Top Navigation Bar */}
-        <div className="bg-purple-50 h-16 flex justify-center items-center px-4 z-10 border-b border-gray-100"></div>
+        <div className="bg-white h-16 flex justify-center items-center px-4 z-10 border-b border-gray-200 shadow-sm">
+          {/* You could add a logo or heading here */}
+          <h1 className="text-xl font-bold text-purple-700">QuikNotes</h1>
+        </div>
 
         {/* Notes Content - Scrollable */}
-        <div className="flex-1 bg-purple-50 p-4 md:p-6 overflow-hidden">
+        <div className="flex-1 bg-gray-50 p-4 md:p-6 overflow-hidden">
           <div className="max-w-3xl mx-auto h-full bg-white rounded-xl shadow-md border border-gray-100 flex flex-col overflow-auto">
             {isMobile && !showSidebar && (
               <button
@@ -73,11 +92,54 @@ export default function Home() {
             {/* This handles scrolling */}
             <div className="flex-1 overflow-auto scrollbar-hide smooth-scroll">
               <div className="p-5 md:p-6">
-                <NoteList />
+                <NoteList showToast={showToast} />
               </div>
             </div>
           </div>
         </div>
+
+        {/* Keyboard Shortcut Help Modal */}
+        {showShortcutHelp && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+            onClick={() => setShowShortcutHelp(false)}
+          >
+            <div
+              className="bg-white rounded-lg shadow-xl p-6 max-w-md w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="text-xl font-bold text-gray-800 mb-4">
+                Keyboard Shortcuts
+              </h2>
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Show shortcuts</span>
+                  <span className="font-mono bg-gray-100 px-2 py-0.5 rounded text-sm">
+                    Ctrl + /
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Create new note</span>
+                  <span className="font-mono bg-gray-100 px-2 py-0.5 rounded text-sm">
+                    Ctrl + N
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Search notes</span>
+                  <span className="font-mono bg-gray-100 px-2 py-0.5 rounded text-sm">
+                    Ctrl + F
+                  </span>
+                </div>
+              </div>
+              <button
+                className="mt-6 w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                onClick={() => setShowShortcutHelp(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
