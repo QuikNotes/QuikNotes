@@ -6,6 +6,8 @@ import sequelize from "./config/db.js";
 import Note from "./models/Note.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import seedDatabase from "./config/seeds.js";
+import cors from "cors";
 
 dotenv.config();
 
@@ -14,6 +16,9 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+
+// Add CORS middleware
+app.use(cors());
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -54,6 +59,11 @@ sequelize
   })
   .then(() => {
     console.log("Database synced...");
+
+    // Seed the database with dummy data if needed
+    return seedDatabase();
+  })
+  .then(() => {
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
