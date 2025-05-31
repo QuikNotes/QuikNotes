@@ -11,6 +11,10 @@ export default defineConfig(({ mode }) => {
   return {
     root: "client",
     plugins: [react()],
+    build: {
+      outDir: "../dist", // Output to the project root's dist directory
+      emptyOutDir: true
+    },
     server: {
       host: "0.0.0.0",
       port: 3000,
