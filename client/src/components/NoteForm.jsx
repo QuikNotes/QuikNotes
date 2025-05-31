@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNoteContext } from "../context/NoteContext";
+import { useThemeContext } from "../context/ThemeContext";
 
 export default function NoteForm({ setShowForm, className = "", showToast }) {
   const { addNote, updateNote, editingNote } = useNoteContext();
+  const { darkMode } = useThemeContext();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("personal");
@@ -48,7 +50,11 @@ export default function NoteForm({ setShowForm, className = "", showToast }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mb-6 bg-white border border-gray-200 p-5 rounded-lg shadow-sm flex-shrink-0"
+      className={`mb-6 ${
+        darkMode
+          ? "bg-gray-700 border-gray-600 text-white"
+          : "bg-white border-gray-200"
+      } border p-5 rounded-lg shadow-sm flex-shrink-0 ${className}`}
     >
       <div className="mb-4">
         <label

@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./client/index.html", "./client/src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
@@ -14,6 +15,9 @@ export default {
           "0%": { opacity: "0", transform: "scale(0.95)" },
           "100%": { opacity: "1", transform: "scale(1)" },
         },
+      },
+      screens: {
+        xs: "375px", // iPhone and other small mobile devices
       },
     },
   },
@@ -33,6 +37,20 @@ export default {
     "bg-black",
     "bg-red-50",
 
+    // Dark mode background colors
+    "dark:bg-gray-800",
+    "dark:bg-gray-900",
+    "dark:bg-gray-700",
+    "dark:bg-purple-900",
+    "dark:bg-purple-800",
+    "dark:bg-purple-700",
+    "dark:bg-purple-600",
+    "dark:bg-purple-500",
+    "dark:bg-blue-900",
+    "dark:bg-blue-800",
+    "dark:bg-red-900",
+    "dark:bg-red-800",
+
     // Text colors
     "text-gray-400",
     "text-gray-500",
@@ -50,6 +68,17 @@ export default {
     "text-red-600",
     "text-white",
 
+    // Dark mode text colors
+    "dark:text-gray-100",
+    "dark:text-gray-200",
+    "dark:text-gray-300",
+    "dark:text-gray-400",
+    "dark:text-white",
+    "dark:text-purple-300",
+    "dark:text-purple-400",
+    "dark:text-blue-300",
+    "dark:text-red-300",
+
     // Font sizes
     "text-xs",
     "text-sm",
@@ -64,6 +93,12 @@ export default {
     "border-gray-300",
     "border-purple-200",
     "border-purple-300",
+
+    // Dark mode borders
+    "dark:border-gray-600",
+    "dark:border-gray-700",
+    "dark:border-purple-700",
+    "dark:border-purple-800",
 
     // Border radius
     "rounded-lg",
@@ -103,6 +138,16 @@ export default {
     "hover:shadow-md",
     "hover:border-purple-200",
     "hover:underline",
+
+    // Dark mode hover states
+    "dark:hover:bg-gray-700",
+    "dark:hover:bg-gray-600",
+    "dark:hover:bg-purple-800",
+    "dark:hover:bg-purple-700",
+    "dark:hover:text-gray-200",
+    "dark:hover:text-gray-100",
+    "dark:hover:text-red-300",
+    "dark:hover:border-purple-700",
 
     // Group hover
     "group-hover:flex",
@@ -148,7 +193,16 @@ export default {
     "col-span-full",
 
     // Scrollbar
-    'scrollbar-hide',
-    'smooth-scroll',
+    "scrollbar-hide",
+    "smooth-scroll",
+
+    // Mobile specific
+    "xs:text-sm",
+    "xs:p-2",
+    "xs:px-3",
+    "xs:py-1.5",
+    "xs:gap-1",
+    "xs:w-full",
+    "xs:h-full",
   ],
 };

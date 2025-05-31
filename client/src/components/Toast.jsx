@@ -13,11 +13,11 @@ export default function Toast({ message, type = "success", onClose }) {
     <div
       className={`fixed bottom-4 right-4 px-4 py-2.5 rounded-lg shadow-lg ${
         type === "success" ? "bg-green-500" : "bg-red-500"
-      } text-white animate-fadeIn flex items-center`}
+      } text-white animate-fadeIn flex items-center z-50 xs:text-sm xs:px-3 xs:py-1.5 dark:shadow-gray-900`}
     >
       {type === "success" ? (
         <svg
-          className="w-5 h-5 mr-2"
+          className="w-5 h-5 mr-2 xs:w-4 xs:h-4"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -32,7 +32,7 @@ export default function Toast({ message, type = "success", onClose }) {
         </svg>
       ) : (
         <svg
-          className="w-5 h-5 mr-2"
+          className="w-5 h-5 mr-2 xs:w-4 xs:h-4"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
