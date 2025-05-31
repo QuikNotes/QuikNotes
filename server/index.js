@@ -28,8 +28,10 @@ app.get("/api/health", (req, res) => {
 
 // Serve static files in production
 if (process.env.NODE_ENV === "production") {
-  const clientDistPath = path.join(__dirname, "../client/dist");
-  app.use(express.static(clientDistPath));
+  const distPath = path.join(__dirname, "../dist");
+  console.log(`Serving static files from: ${distPath}`);
+
+  app.use(express.static(distPath));
 
   // Handle all routes for SPA
   app.get("*", (req, res, next) => {
@@ -37,7 +39,7 @@ if (process.env.NODE_ENV === "production") {
     if (req.path.startsWith("/api")) {
       return next();
     }
-    res.sendFile(path.join(clientDistPath, "index.html"));
+    res.sendFile(path.join(distPath, "index.html"));
   });
 }
 
