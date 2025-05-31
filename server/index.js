@@ -1,23 +1,36 @@
+/* global process */
 import express from 'express';
 import dotenv from 'dotenv';
 import noteRoutes from './routes/noteRoutes.js';
 import sequelize from './config/db.js';
+import Note from './models/Note.js';
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8080; //maybe use 5000???
+const PORT = process.env.PORT || 8080;
 
-//middleware to parse JSON
+// Middleware to parse JSON
 app.use(express.json());
 
-//routes
+// Routes
 app.use('/api/notes', noteRoutes);
 
-//test DB connection and start server
+// Test route
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ message: 'Server is healthy' });
+});
+
+// Sync database and start server
 sequelize.authenticate()
   .then(() => {
     console.log('Database connected...');
+
+    // Sync models with database
+    return sequelize.sync({ alter: true });
+  })
+  .then(() => {
+    console.log('Database synced...');
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });

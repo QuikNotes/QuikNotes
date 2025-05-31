@@ -1,68 +1,126 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const NoteContext = createContext();
 
 export const useNoteContext = () => useContext(NoteContext);
 
 export const NoteProvider = ({ children }) => {
-  const [notes, setNotes] = useState([
-    // dummy data
-    {
-      id: 1,
-      title: "Meeting with Client",
-      content: "Discuss project timeline and deliverables",
-      category: "business",
-      createdAt: new Date().toISOString(),
-    },
-    {
-      id: 2,
-      title: "Shopping List",
-      content: "Milk, eggs, bread, fruits",
-      category: "personal",
-      createdAt: new Date().toISOString(),
-    },
-    {
-      id: 3,
-      title: "Project Ideas",
-      content: "Mobile app for task management with voice controls",
-      category: "business",
-      createdAt: new Date().toISOString(),
-    },
-    {
-      id: 4,
-      title: "Birthday Gift Ideas",
-      content: "Watch, book, gift card",
-      category: "personal",
-      createdAt: new Date().toISOString(),
-    },
-  ]);
+  const [notes, setNotes] = useState([]);
   const [activeCategory, setActiveCategory] = useState("all");
   const [editingNote, setEditingNote] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Filter notes based on active category
-  const filteredNotes =
-    activeCategory === "all"
-      ? notes
-      : notes.filter((note) => note.category === activeCategory);
+  // Fetch notes on component mount
+  useEffect(() => {
+    fetchNotes();
+  }, []);
 
-  const addNote = (newNote) => {
-    const noteWithId = {
-      ...newNote,
-      id: Date.now(),
-      createdAt: new Date().toISOString(),
-    };
-    setNotes([...notes, noteWithId]);
+  const fetchNotes = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch('/api/notes');
+      if (!response.ok) {
+        throw new Error('Failed to fetch notes');
+      }
+      const data = await response.json();
+      setNotes(data);
+    } catch (err) {
+      console.error('Error fetching notes:', err);
+      setError('Failed to load notes. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const updateNote = (updatedNote) => {
-    setNotes(
-      notes.map((note) => (note.id === updatedNote.id ? updatedNote : note))
+  // Filter notes based on active category and search query
+  const filteredNotes = notes
+    .filter(
+      (note) => activeCategory === "all" || note.category === activeCategory
+    )
+    .filter(
+      (note) =>
+        searchQuery === "" ||
+        note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        note.content.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    setEditingNote(null);
+
+  const addNote = async (newNote) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch('/api/notes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newNote),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add note');
+      }
+
+      const addedNote = await response.json();
+      setNotes([addedNote, ...notes]);
+    } catch (err) {
+      setError("Failed to add note");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const deleteNote = (id) => {
-    setNotes(notes.filter((note) => note.id !== id));
+  const updateNote = async (updatedNote) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`/api/notes/${updatedNote.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedNote),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update note');
+      }
+
+      const updated = await response.json();
+      setNotes(
+        notes.map((note) => (note.id === updated.id ? updated : note))
+      );
+      setEditingNote(null);
+    } catch (err) {
+      setError("Failed to update note");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const deleteNote = async (id) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`/api/notes/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete note');
+      }
+
+      setNotes(notes.filter((note) => note.id !== id));
+    } catch (err) {
+      setError("Failed to delete note");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const editNote = (note) => {
@@ -74,6 +132,10 @@ export const NoteProvider = ({ children }) => {
     filteredNotes,
     activeCategory,
     editingNote,
+    isLoading,
+    error,
+    searchQuery,
+    setSearchQuery,
     setActiveCategory,
     addNote,
     updateNote,

@@ -1,22 +1,36 @@
 import express from 'express';
-import { addNote } from '../controllers/noteController.js';
+import { addNote, getAllNotes, getNoteById, updateNote, deleteNote } from '../controllers/noteController.js';
 
 const router = express.Router();
 
 // POST
-router.post('/', addNote);
+router.post('/', (req, res) => {
+  console.log('POST request received:', req.body);
+  addNote(req, res);
+});
 
-// GET may need to update endpoint names
-// router.get('/', getAllNotes);
+// GET all notes
+router.get('/', (req, res) => {
+  console.log('GET all notes request received');
+  getAllNotes(req, res);
+});
 
-// GET /api/notes/:id 
-// router.get('/:id', getNoteById);
+// GET note by id
+router.get('/:id', (req, res) => {
+  console.log('GET note by id request received:', req.params.id);
+  getNoteById(req, res);
+});
 
-// PUT /api/notes/:id
-// router.put('/:id', updateNote);
+// PUT update note
+router.put('/:id', (req, res) => {
+  console.log('PUT request received for id:', req.params.id, 'with data:', req.body);
+  updateNote(req, res);
+});
 
-// DELETE /api/notes/:id
-// router.delete('/:id', deleteNote);
+// DELETE note
+router.delete('/:id', (req, res) => {
+  console.log('DELETE request received for id:', req.params.id);
+  deleteNote(req, res);
+});
 
 export default router;
-
