@@ -17,13 +17,13 @@ export default function NoteList({ showToast }) {
 
   return (
     <section className="h-full flex flex-col">
-      <div className="flex items-center mb-6 flex-shrink-0">
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
+      <div className="flex items-center mb-4 md:mb-6 flex-shrink-0 flex-wrap gap-2">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100">
           Notes
         </h1>
         <div className="ml-auto flex gap-2">
           <button
-            className="bg-purple-600 text-white px-5 py-2.5 rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors shadow-sm font-medium dark:bg-purple-700 dark:hover:bg-purple-800 xs:px-3 xs:py-1.5 xs:text-sm"
+            className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors shadow-sm font-medium dark:bg-purple-700 dark:hover:bg-purple-800 text-sm"
             onClick={() => setShowForm(!showForm)}
           >
             {showForm ? "Cancel" : "Add Note"}
@@ -84,7 +84,7 @@ export default function NoteList({ showToast }) {
         />
       )}
 
-      <div className="flex flex-col flex-1 overflow-auto scrollbar-hide smooth-scroll">
+      <div className="flex flex-col flex-1 overflow-auto scrollbar-hide smooth-scroll scrollable-content">
         {isLoading ? (
           <div className="flex justify-center items-center py-8">
             <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-500 dark:border-purple-400"></div>
