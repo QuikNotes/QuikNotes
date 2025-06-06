@@ -54,18 +54,28 @@ export default function NoteForm({ setShowForm, className = "", showToast }) {
         darkMode
           ? "bg-gray-700 border-gray-600 text-white"
           : "bg-white border-gray-200"
-      } border p-5 rounded-lg shadow-sm flex-shrink-0 ${className}`}
+      } border p-5 rounded-lg shadow-sm flex-shrink-0 ${className} ${
+        isEditing ? "edit-form" : ""
+      } ${
+        category === "personal" ? "border-l-purple-300" : "border-l-blue-300"
+      }`}
     >
       <div className="mb-4">
         <label
           htmlFor="title"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className={`block text-sm font-medium ${
+            darkMode ? "text-gray-300" : "text-gray-700"
+          } mb-1`}
         >
           Title
         </label>
         <input
           id="title"
-          className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300 transition-all"
+          className={`block w-full p-2 border ${
+            darkMode
+              ? "bg-gray-700 border-gray-600 text-white"
+              : "bg-white border-gray-300"
+          } rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300 transition-all`}
           placeholder="Note title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -76,13 +86,19 @@ export default function NoteForm({ setShowForm, className = "", showToast }) {
       <div className="mb-4">
         <label
           htmlFor="content"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className={`block text-sm font-medium ${
+            darkMode ? "text-gray-300" : "text-gray-700"
+          } mb-1`}
         >
           Content
         </label>
         <textarea
           id="content"
-          className="block w-full p-2 min-h-[120px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300 transition-all"
+          className={`block w-full p-2 min-h-[80px] border ${
+            darkMode
+              ? "bg-gray-700 border-gray-600 text-white"
+              : "bg-white border-gray-300"
+          } rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300 transition-all`}
           placeholder="Note content"
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -90,7 +106,11 @@ export default function NoteForm({ setShowForm, className = "", showToast }) {
       </div>
 
       <div className="mb-5">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label
+          className={`block text-sm font-medium ${
+            darkMode ? "text-gray-300" : "text-gray-700"
+          } mb-2`}
+        >
           Category
         </label>
         <div className="flex gap-6">
@@ -104,7 +124,9 @@ export default function NoteForm({ setShowForm, className = "", showToast }) {
               className="mr-2 h-4 w-4 text-purple-600 focus:ring-purple-500"
             />
             <span className="mr-1 text-xl">⭐</span>
-            <span className="text-gray-700">Personal</span>
+            <span className={darkMode ? "text-gray-300" : "text-gray-700"}>
+              Personal
+            </span>
           </label>
           <label className="flex items-center cursor-pointer">
             <input
@@ -116,7 +138,9 @@ export default function NoteForm({ setShowForm, className = "", showToast }) {
               className="mr-2 h-4 w-4 text-purple-600 focus:ring-purple-500"
             />
             <span className="mr-1 text-xl">💼</span>
-            <span className="text-gray-700">Business</span>
+            <span className={darkMode ? "text-gray-300" : "text-gray-700"}>
+              Business
+            </span>
           </label>
         </div>
       </div>

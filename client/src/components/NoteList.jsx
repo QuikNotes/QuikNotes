@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NoteForm from "./NoteForm";
 import NoteItem from "./NoteItem";
 import { useNoteContext } from "../context/NoteContext";
@@ -14,6 +14,22 @@ export default function NoteList({ showToast }) {
     setSearchQuery,
   } = useNoteContext();
   const [showForm, setShowForm] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 767);
+    };
+
+    // Check initially
+    checkMobile();
+
+    // Add resize listener
+    window.addEventListener("resize", checkMobile);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   return (
     <section className="h-full flex flex-col">
@@ -80,7 +96,7 @@ export default function NoteList({ showToast }) {
         <NoteForm
           setShowForm={setShowForm}
           showToast={showToast}
-          className="flex-shrink-0"
+          className={`flex-shrink-0 ${isMobile ? "mobile-edit-form" : ""}`}
         />
       )}
 
