@@ -2,15 +2,19 @@
 import Note from "../models/Note.js";
 
 const seedDatabase = async () => {
-  // Check if FORCE_SEED is set, or if there are no notes
+   // Always seed if RESET_DB is true or if there are no notes
   const count = await Note.count();
-  const shouldSeed = process.env.FORCE_SEED === "true" || count === 0;
+  const shouldSeed = process.env.RESET_DB === "true" ||
+                     process.env.FORCE_SEED === "true" ||
+                     count === 0;
+
+  console.log(`Notes count: ${count}, Should seed: ${shouldSeed}, RESET_DB: ${process.env.RESET_DB}`);
 
   if (shouldSeed) {
     console.log("Seeding database with dummy data...");
 
-    // If FORCE_SEED is true, clear existing data first
-    if (process.env.FORCE_SEED === "true") {
+    // Clear existing data if any exists
+    if (count > 0) {
       await Note.destroy({ where: {} });
       console.log("Cleared existing notes");
     }
@@ -23,15 +27,6 @@ const seedDatabase = async () => {
           content:
             "This is a simple note-taking application. Start by creating your first note!",
           category: "General",
-          isStarred: true,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          title: "How to Use QuikNotes",
-          content:
-            "1. Create new notes using the + button\n2. Edit notes by clicking on them\n3. Star important notes\n4. Delete notes you no longer need",
-          category: "Tutorial",
           isStarred: true,
           createdAt: new Date(),
           updatedAt: new Date(),

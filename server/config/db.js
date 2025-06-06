@@ -49,4 +49,5 @@ const testConnection = async () => {
   }
 };
 
+
 export default sequelize;

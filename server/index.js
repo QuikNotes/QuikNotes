@@ -55,6 +55,8 @@ sequelize
     console.log("Database connected...");
 
     // Sync models with database
+    const syncOptions = process.env.RESET_DB === "true" ? { force: true } : { alter: true };
+    console.log(`Database sync with options: ${JSON.stringify(syncOptions)}`);
     return sequelize.sync({ alter: true });
   })
   .then(() => {
