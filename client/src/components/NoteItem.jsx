@@ -65,7 +65,7 @@ export default function NoteItem({ note, onEdit, showToast }) {
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-hidden pr-6">
+        <div className="flex-1 overflow-hidden pr-10">
           <div
             className={`font-medium ${
               darkMode
@@ -176,14 +176,14 @@ export default function NoteItem({ note, onEdit, showToast }) {
               deleteNote(note.id);
               showToast && showToast("Note deleted successfully", "success");
             }}
-            className={`p-1.5 rounded-full ${
-              darkMode ? "bg-gray-600 text-red-300" : "bg-gray-50 text-red-500"
-            } focus:outline-none focus:ring-2 focus:ring-red-300 shadow-sm`}
+            className={`p-1.5 ${
+              darkMode ? "text-red-300" : "text-red-500"
+            } focus:outline-none`}
             aria-label="Delete note"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
+              className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

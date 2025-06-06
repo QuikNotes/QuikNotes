@@ -2,15 +2,19 @@
 import Note from "../models/Note.js";
 
 const seedDatabase = async () => {
-  // Check if FORCE_SEED is set, or if there are no notes
+   // Always seed if RESET_DB is true or if there are no notes
   const count = await Note.count();
-  const shouldSeed = process.env.FORCE_SEED === "true" || count === 0;
+  const shouldSeed = process.env.RESET_DB === "true" ||
+                     process.env.FORCE_SEED === "true" ||
+                     count === 0;
+
+  console.log(`Notes count: ${count}, Should seed: ${shouldSeed}, RESET_DB: ${process.env.RESET_DB}`);
 
   if (shouldSeed) {
     console.log("Seeding database with dummy data...");
 
-    // If FORCE_SEED is true, clear existing data first
-    if (process.env.FORCE_SEED === "true") {
+    // Clear existing data if any exists
+    if (count > 0) {
       await Note.destroy({ where: {} });
       console.log("Cleared existing notes");
     }
