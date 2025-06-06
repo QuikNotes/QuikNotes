@@ -53,6 +53,19 @@
   textarea {
     font-size: 16px !important; /* Prevent auto-zoom on iOS */
   }
+
+  /* Fix toggle button to be visible on screen */
+  .fixed.bottom-4 {
+    position: fixed !important;
+    bottom: 10px !important;
+    z-index: 100;
+  }
+
+  /* Adjust the trash icon positioning */
+  .absolute.right-4.top-4.flex.md\\:hidden {
+    right: 8px !important;
+    top: 6px !important;
+  }
 }
 
 /* Add smooth scrolling to content areas */

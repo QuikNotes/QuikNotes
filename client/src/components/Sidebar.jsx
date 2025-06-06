@@ -70,7 +70,7 @@ export default function Sidebar() {
       </div>
 
       {/* Settings and Dark Mode Toggle */}
-      <div className="mt-auto mb-6 flex flex-col items-center gap-4">
+      <div className="mt-auto mb-6 flex flex-col items-center gap-4 fixed bottom-4 left-0 w-[90px]">
         {/* Dark Mode Toggle */}
         <button
           className="w-12 h-12 rounded-xl flex items-center justify-center bg-purple-600 text-white hover:bg-purple-500 transition-all"
