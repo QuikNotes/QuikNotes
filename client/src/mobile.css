@@ -37,6 +37,81 @@
     width: 100%;
   }
 
+  /* Fix button layout in edit form */
+  .mobile-edit-form .flex.justify-end {
+    margin-top: 16px;
+  }
+
+  /* Make category radio buttons aligned better */
+  .mobile-edit-form .flex.gap-6 {
+    gap: 12px !important;
+  }
+
+  /* Adjust label styling */
+  .mobile-edit-form label.block {
+    margin-bottom: 4px !important;
+  }
+
+  /* Fix whitespace issues in edit mode */
+  form.mb-6 {
+    margin-bottom: 0 !important;
+    padding: 16px !important;
+    border-radius: 0 !important;
+    border-left: 4px solid;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 1px solid;
+  }
+
+  .mobile-edit-form {
+    padding: 16px 16px 16px 12px !important;
+    margin: 0 !important;
+    border-width: 0 0 1px 4px !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Make the edit form match the note item styling */
+  .mobile-edit-form .mb-4 {
+    margin-bottom: 10px !important;
+  }
+
+  /* Adjust spacing to match note items */
+  .mobile-edit-form input,
+  .mobile-edit-form textarea {
+    padding: 8px 10px !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* Ensure proper coloring for light/dark modes */
+  form.mb-6.bg-white {
+    border-left-color: #d8b4fe !important; /* purple-300 for light mode */
+    border-bottom-color: #e5e7eb !important; /* gray-200 for light mode */
+  }
+
+  form.mb-6.bg-gray-700 {
+    border-left-color: #d8b4fe !important; /* purple-300 for dark mode */
+    border-bottom-color: #4b5563 !important; /* gray-600 for dark mode */
+  }
+
+  /* Improve button styling for mobile edit form */
+  .mobile-edit-form button {
+    height: 40px !important;
+    min-height: 40px !important;
+  }
+
+  form.mb-6.bg-gray-700 {
+    border-left-color: #d8b4fe; /* purple-300 for dark mode */
+    border-bottom-color: #4b5563; /* gray-600 for dark mode */
+  }
+
+  /* Make the edit form inputs match the note display spacing */
+  form.mb-6 input,
+  form.mb-6 textarea {
+    background-color: transparent;
+    padding: 8px !important;
+  }
+
   /* Make buttons more touch-friendly */
   button {
     min-height: 44px;
@@ -70,7 +145,20 @@
 
 /* Add smooth scrolling to content areas */
 .scrollable-content {
-  -webkit-overflow-scrolling: touch;
   overflow-y: auto;
   height: 100%;
+}
+
+/* Edit form specific styling - these apply to both mobile and desktop */
+.edit-form {
+  margin-bottom: 16px !important;
+}
+
+.edit-form textarea {
+  resize: none;
+}
+
+/* Add transition to make the edit form appearance smoother */
+form {
+  transition: all 0.2s ease-in-out;
 }
