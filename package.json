@@ -12,25 +12,25 @@
     "start": "node server/index.js",
     "build:all": "npm run build && npm start",
     "dev:full": "concurrently \"npm run dev\" \"npm run server\"",
-    "install:prod": "npm install --production=false"
+    "install:prod": "npm install --production=false",
+    "test": "jest --testPathPattern=server/tests"
   },
   "dependencies": {
+    "@vitejs/plugin-react": "^4.4.1",
+    "autoprefixer": "^10.4.21",
     "concurrently": "^9.1.2",
     "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "express": "^4.18.3",
     "mysql2": "^3.14.1",
+    "postcss": "^8.5.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.0",
     "sequelize": "^6.37.7",
     "tailwindcss": "^3.4.17",
-    "@vitejs/plugin-react": "^4.4.1",
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.3",
     "vite": "^6.3.5"
-
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
@@ -42,6 +42,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "jest": "^29.7.0",
     "postcss": "^8.5.3",
     "vite": "^6.3.5"
   }
