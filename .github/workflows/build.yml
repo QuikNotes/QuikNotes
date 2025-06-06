@@ -32,4 +32,4 @@ jobs:
     - name: Deploy to Render
       run: |
         echo "Triggering deployment to Render..."
-        curl -X POST "https://api.render.com/deploy/srv-d0jogbi4d50c73fhpq60?key=HFZHeGFkCHk"
+        curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
