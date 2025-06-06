@@ -1,4 +1,4 @@
-// server/tests/basic.test.js
+
 
 describe('Basic Test', () => {
   it('should pass a simple truthy test', () => {

@@ -12,7 +12,8 @@
     "start": "node server/index.js",
     "build:all": "npm run build && npm start",
     "dev:full": "concurrently \"npm run dev\" \"npm run server\"",
-    "install:prod": "npm install --production=false"
+    "install:prod": "npm install --production=false",
+    "test": "jest --testPathPattern=server/tests"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.4.1",
