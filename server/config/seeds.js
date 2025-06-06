@@ -32,15 +32,6 @@ const seedDatabase = async () => {
           updatedAt: new Date(),
         },
         {
-          title: "How to Use QuikNotes",
-          content:
-            "1. Create new notes using the + button\n2. Edit notes by clicking on them\n3. Star important notes\n4. Delete notes you no longer need",
-          category: "Tutorial",
-          isStarred: true,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
           title: "Project Ideas",
           content:
             "- Build a personal website\n- Create a recipe app\n- Develop a budget tracker\n- Learn a new programming language",
