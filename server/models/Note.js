@@ -12,7 +12,7 @@ const Note = sequelize.define('Note', {
   },
   category: {
     type: DataTypes.STRING,
-    defaultValue: 'peronal',
+    defaultValue: 'personal',
     validate: {
       isIn:[['personal', 'business']]
     }
