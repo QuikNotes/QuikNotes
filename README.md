@@ -2,7 +2,7 @@
 
 QuikNotes is a modern note-taking application built with React, Vite, and Tailwind CSS. It allows users to create, read, update, and delete notes, categorize them as Personal or Business, and filter notes by category.
 
-![QuikNotes App Screenshot]
+https://quiknotes.onrender.com/
 
 ## Features
 
