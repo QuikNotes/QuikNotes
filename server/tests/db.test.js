@@ -1,31 +1,20 @@
-import { Sequelize } from "sequelize";
-import { describe, it, expect, afterAll, beforeAll, jest } from "@jest/globals";
-import Note from "../models/Note.js";
-import sequelize from "../config/db.js";
-
-// Mock the database connection
-jest.mock("../config/db.js", () => {
-  return {
-    __esModule: true,
-    default: new Sequelize("sqlite::memory:", {
-      logging: false,
-    }),
-  };
-});
+import { describe, it, expect, afterAll, beforeAll } from "@jest/globals";
+import testSequelize from "../config/test-db.js";
+import TestNote from "../models/TestNote.js";
 
 describe("Note Model Tests", () => {
   beforeAll(async () => {
-    // Sync the model with the database
-    await Note.sync({ force: true });
+    // Sync the test model with the in-memory database
+    await testSequelize.sync({ force: true });
   });
 
   afterAll(async () => {
     // Close the database connection
-    await sequelize.close();
+    await testSequelize.close();
   });
 
   it("should create a note with valid fields", async () => {
-    const note = await Note.create({
+    const note = await TestNote.create({
       title: "Test Note",
       content: "This is a test note",
       category: "personal",
@@ -42,7 +31,7 @@ describe("Note Model Tests", () => {
 
   it("should not create a note without a title", async () => {
     await expect(
-      Note.create({
+      TestNote.create({
         content: "This is a test note",
         category: "personal",
       })
@@ -51,7 +40,7 @@ describe("Note Model Tests", () => {
 
   it("should not create a note without content", async () => {
     await expect(
-      Note.create({
+      TestNote.create({
         title: "Test Note",
         category: "personal",
       })
@@ -60,7 +49,7 @@ describe("Note Model Tests", () => {
 
   it("should validate category is either personal or business", async () => {
     await expect(
-      Note.create({
+      TestNote.create({
         title: "Test Note",
         content: "This is a test note",
         category: "invalid",
@@ -69,7 +58,7 @@ describe("Note Model Tests", () => {
   });
 
   it("should use personal as default category if not provided", async () => {
-    const note = await Note.create({
+    const note = await TestNote.create({
       title: "Test Note",
       content: "This is a test note",
     });
@@ -77,4 +66,3 @@ describe("Note Model Tests", () => {
     expect(note.category).toBe("personal");
   });
 });
-
