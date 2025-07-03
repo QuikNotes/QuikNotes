@@ -1,0 +1,44 @@
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: quiknotes-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: quiknotes_db
+      MYSQL_USER: quiknotes_user
+      MYSQL_PASSWORD: quiknotes_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Node.js Application
+  app:
+    build: .
+    container_name: quiknotes-app
+    restart: unless-stopped
+    ports:
+      - "3001:8080"
+    environment:
+      NODE_ENV: production
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: quiknotes_db
+      DB_USER: quiknotes_user
+      DB_PASSWORD: quiknotes_password
+      RESET_DB: "false"
+      PORT: 8080
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./dist:/app/dist
+
+volumes:
+  mysql_data:
