@@ -19,19 +19,24 @@ const sequelize = new Sequelize(
       acquire: 30000,
       idle: 10000,
     },
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    }
+    dialectOptions:
+      process.env.DB_HOST === "localhost" || process.env.DB_HOST === "127.0.0.1"
+        ? {}
+        : {
+            ssl: {
+              require: true,
+              rejectUnauthorized: false,
+            },
+          },
   }
 );
 
 const testConnection = async () => {
   try {
     await sequelize.authenticate();
-    console.log("Connection to the database has been established successfully.");
+    console.log(
+      "Connection to the database has been established successfully."
+    );
     return true;
   } catch (error) {
     console.error("Unable to connect to the database:", error);
@@ -48,6 +53,5 @@ const testConnection = async () => {
     return false;
   }
 };
-
 
 export default sequelize;
