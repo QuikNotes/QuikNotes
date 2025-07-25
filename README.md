@@ -87,6 +87,10 @@ QuikNotes/
 - Dark mode support
 - Tags and more categorization options
 
+## Reflection
+
+The QuikNotes project provided valuable experience in implementing real-time communication and managing data synchronization efficiently. Our collaborative approach reinforced good practices in developing scalable backend architectures, creating responsive interfaces, and conducting regular team-based code reviews.
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
